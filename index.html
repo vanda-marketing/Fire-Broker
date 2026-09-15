@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fire Broker — Fire Safety Services Introducer & Broker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0A130D;
+    --paper-dim:#101C14;
+    --band:#11291B;
+    --ink:#E7EFE6;
+    --signal:#3CA05F;
+    --signal-dim:#2C7B47;
+    --slate:#7E9A87;
+    --amber:#C9A227;
+    --line:#203024;
+    --line-dark:#2E4536;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  ::selection{background:var(--signal); color:var(--paper);}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:3px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,19,13,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Source Serif 4', serif; font-weight:700; font-size:20px;
+    text-decoration:none; color:var(--ink);
+  }
+  .brand .mark{
+    width:28px; height:28px; flex:none;
+  }
+  nav.links{display:flex; align-items:center; gap:30px;}
+  nav.links a{
+    text-decoration:none; font-size:14.5px; color:var(--ink);
+    position:relative; padding-bottom:3px;
+  }
+  nav.links a:not(.cta)::after{
+    content:""; position:absolute; left:0; right:100%; bottom:0; height:1px;
+    background:var(--signal); transition:right .2s ease;
+  }
+  nav.links a:not(.cta):hover::after{right:0;}
+  .cta-btn{
+    background:var(--signal); color:var(--paper) !important;
+    padding:10px 18px; border-radius:2px; font-size:14px; font-weight:500;
+    text-decoration:none; border:1px solid var(--signal);
+  }
+  .cta-btn:hover{background:transparent; color:var(--ink) !important;}
+  .menu-toggle{display:none;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:96px 0 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:end;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; color:var(--signal);
+    letter-spacing:0.04em;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:""; width:18px; height:1px; background:var(--signal);}
+  .hero h1{
+    font-size:clamp(38px, 5.4vw, 66px);
+    line-height:1.02;
+    max-width:14ch;
+  }
+  .hero-sub{
+    margin-top:24px; font-size:18px; max-width:42ch; color:#B7C4B9;
+  }
+  .hero-ctas{display:flex; gap:16px; margin-top:34px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--signal); color:var(--paper); padding:14px 26px;
+    text-decoration:none; font-size:15px; font-weight:500; border-radius:2px;
+    border:1px solid var(--signal);
+  }
+  .btn-primary:hover{background:var(--signal-dim); border-color:var(--signal-dim);}
+  .btn-ghost{
+    padding:14px 22px; text-decoration:none; font-size:15px; font-weight:500;
+    border:1px solid var(--ink); border-radius:2px; color:var(--ink);
+  }
+  .btn-ghost:hover{background:var(--ink); color:var(--paper);}
+
+  .hero-diagram{
+    border:1px solid var(--line-dark);
+    background:var(--band); color:var(--ink);
+    padding:26px;
+    position:relative;
+  }
+  .hero-diagram .tick{position:absolute; width:10px; height:10px; border:1px solid var(--amber);}
+  .hero-diagram .tick.tl{top:-1px; left:-1px; border-right:none; border-bottom:none;}
+  .hero-diagram .tick.br{bottom:-1px; right:-1px; border-left:none; border-top:none;}
+  .hero-diagram .dlabel{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--amber); letter-spacing:0.04em;}
+  .hero-diagram h3{color:var(--ink); font-size:20px; margin-top:10px; max-width:20ch;}
+  .diagram-flow{margin-top:22px; display:flex; flex-direction:column;}
+  .diagram-node{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 0; border-top:1px solid rgba(242,236,223,0.15);
+    font-size:13.5px;
+  }
+  .diagram-node:last-child{border-bottom:1px solid rgba(242,236,223,0.15);}
+  .diagram-node .n{
+    font-family:'IBM Plex Mono', monospace; color:var(--amber); font-size:12px;
+    width:20px; flex:none;
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:84px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:30px; margin-bottom:48px; border-bottom:1px solid var(--line); padding-bottom:22px;
+  }
+  .section-head h2{font-size:clamp(28px, 3.4vw, 38px); max-width:16ch;}
+  .section-head .desc{max-width:34ch; font-size:15px; color:#AEBDB1; padding-bottom:4px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate);
+    letter-spacing:0.03em; margin-bottom:10px;
+  }
+
+  /* ---------- Offer pillars ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--line);}
+  .pillar{padding:32px 28px 32px 0; border-right:1px solid var(--line);}
+  .pillar:last-child{border-right:none;}
+  .pillar .tag{font-variant:small-caps; letter-spacing:0.02em; font-size:15px; color:var(--signal); font-weight:600;}
+  .pillar h3{font-size:21px; margin-top:12px; max-width:16ch;}
+  .pillar p{margin-top:12px; font-size:14.5px; color:#AEBDB1;}
+
+  /* ---------- Stats ---------- */
+  .stats-strip{
+    background:var(--band); color:var(--ink);
+    padding:56px 0;
+  }
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0;}
+  .stat{padding:0 26px; border-left:1px solid rgba(242,236,223,0.18);}
+  .stat:first-child{border-left:none; padding-left:0;}
+  .stat .num{font-family:'Source Serif 4', serif; font-size:44px; color:var(--amber);}
+  .stat .lbl{font-size:13px; margin-top:10px; color:#C9C2B2; max-width:22ch;}
+
+  /* ---------- Sectors grid ---------- */
+  .sectors{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .sector{background:var(--paper); padding:26px 22px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;}
+  .sector .idx{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate);}
+  .sector h4{font-size:16.5px; margin-top:24px; line-height:1.2;}
+  .sector p{font-size:13px; color:#9FAFA3; margin-top:8px;}
+
+  /* ---------- How it works ---------- */
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:26px;}
+  .step{border-top:2px solid var(--ink); padding-top:18px;}
+  .step .snum{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--signal);}
+  .step h4{font-size:18px; margin-top:10px;}
+  .step p{font-size:13.5px; color:#AEBDB1; margin-top:10px;}
+
+  /* ---------- Two-col industry ---------- */
+  .industry{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .industry-card{background:var(--paper-dim); padding:38px;}
+  .industry-card .tag{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate);}
+  .industry-card h3{font-size:24px; margin-top:12px;}
+  .industry-card p{font-size:14.5px; color:#AEBDB1; margin-top:14px; max-width:46ch;}
+
+  /* ---------- Pain points (clients) ---------- */
+  .pain-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:34px 40px;}
+  .pain{border-left:2px solid var(--line); padding-left:18px;}
+  .pain .pnum{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate);}
+  .pain h4{font-size:16.5px; margin-top:8px;}
+  .pain p{font-size:13.5px; color:#AEBDB1; margin-top:8px;}
+
+  /* ---------- Framework compare ---------- */
+  .framework{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;}
+  .fw-block h3{font-size:20px;}
+  .fw-block p{font-size:14.5px; color:#AEBDB1; margin-top:12px;}
+  .fw-block{padding:26px; border:1px solid var(--line);}
+  .fw-block.dark{background:var(--band); color:var(--ink);}
+  .fw-block.dark p{color:#C9C2B2;}
+  .fw-block.dark .tag{color:var(--amber);}
+  .fw-block .tag{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate);}
+
+  /* ---------- Pricing ---------- */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line);}
+  .price-card{padding:34px 28px; border-right:1px solid var(--line); display:flex; flex-direction:column;}
+  .price-card:last-child{border-right:none;}
+  .price-card.featured{background:var(--band); color:var(--ink);}
+  .price-card .plan-tag{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--slate); letter-spacing:0.03em;}
+  .price-card.featured .plan-tag{color:var(--amber);}
+  .price-card h4{font-size:22px; margin-top:12px;}
+  .price-card .price{font-family:'Source Serif 4', serif; font-size:32px; margin-top:14px;}
+  .price-card ul{list-style:none; margin:22px 0 0; padding:0; flex:1;}
+  .price-card li{
+    font-size:13.5px; padding:9px 0; border-top:1px solid var(--line);
+  }
+  .price-card.featured li{border-top:1px solid rgba(242,236,223,0.18);}
+  .price-card a.select{
+    margin-top:24px; display:inline-block; text-align:center;
+    padding:12px; border:1px solid var(--ink); text-decoration:none; font-size:14px; font-weight:500;
+  }
+  .price-card.featured a.select{border-color:var(--amber); color:var(--ink);}
+  .price-card:not(.featured) a.select:hover{background:var(--ink); color:var(--paper);}
+  .price-card.featured a.select:hover{background:var(--amber); color:var(--paper);}
+  .pricing-note{font-size:13px; color:#9FAFA3; margin-top:18px; font-style:italic;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{border-top:1px solid var(--line);}
+  .faq-item{border-bottom:1px solid var(--line); padding:22px 0;}
+  .faq-item summary{
+    cursor:pointer; font-size:16px; font-weight:500; list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Source Serif 4', serif;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+"; font-size:20px; color:var(--signal); font-family:'IBM Plex Mono', monospace;}
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{margin-top:14px; font-size:14.5px; color:#AEBDB1; max-width:60ch;}
+
+  /* ---------- Legal note ---------- */
+  .legal-note{
+    background:var(--paper-dim); border:1px solid var(--line); padding:30px 34px;
+    display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:flex-start;
+  }
+  .legal-note .lmark{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--signal);
+    border:1px solid var(--signal); padding:6px 10px; white-space:nowrap;
+  }
+  .legal-note p{font-size:14px; color:#AEBDB1; max-width:62ch;}
+
+  /* ---------- CTA band ---------- */
+  .cta-band{
+    background:var(--band); color:var(--ink); padding:70px 0; text-align:left;
+  }
+  .cta-band .wrap{display:flex; justify-content:space-between; align-items:center; gap:30px; flex-wrap:wrap;}
+  .cta-band h2{font-size:clamp(26px,3.2vw,36px); max-width:16ch; color:var(--ink);}
+  .cta-band .contact-line{font-size:14.5px; color:#C9C2B2; margin-top:12px;}
+  .cta-band .contact-line a{text-decoration:underline; text-decoration-color:var(--amber);}
+
+  /* ---------- Footer ---------- */
+  footer{padding:50px 0 34px; border-top:1px solid var(--line);}
+  .footer-grid{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap;}
+  .footer-brand .brand{margin-bottom:12px;}
+  .footer-brand p{font-size:13px; color:#9FAFA3; max-width:40ch;}
+  .footer-cols{display:flex; gap:60px;}
+  .footer-col h5{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate); letter-spacing:0.03em; margin-bottom:14px; font-weight:400;}
+  .footer-col a{display:block; text-decoration:none; font-size:13.5px; color:var(--ink); margin-bottom:9px;}
+  .footer-col a:hover{color:var(--signal);}
+  .footer-bottom{
+    margin-top:44px; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; font-size:12.5px; color:#8B9A8E; flex-wrap:wrap; gap:10px;
+  }
+
+  @media (max-width: 900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .pillars{grid-template-columns:1fr;}
+    .pillar{border-right:none; border-bottom:1px solid var(--line); padding:26px 0;}
+    .stats-grid{grid-template-columns:1fr 1fr; row-gap:26px;}
+    .stat{border-left:none; padding-left:0;}
+    .sectors{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr 1fr; row-gap:26px;}
+    .industry{grid-template-columns:1fr;}
+    .pain-grid{grid-template-columns:1fr 1fr;}
+    .framework{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr; border:none;}
+    .price-card{border:1px solid var(--line); margin-bottom:16px;}
+    .legal-note{grid-template-columns:1fr;}
+    .footer-grid{flex-direction:column;}
+    nav.links{
+      position:fixed; inset:66px 0 0 0; background:var(--paper);
+      flex-direction:column; align-items:flex-start; padding:30px 28px;
+      display:none; gap:22px; border-top:1px solid var(--line);
+    }
+    nav.links.open{display:flex;}
+    .menu-toggle{display:block; background:none; border:1px solid var(--ink); padding:8px 12px; font-size:13px; cursor:pointer; font-family:'IBM Plex Mono', monospace;}
+  }
+  @media (max-width: 620px){
+    .sectors{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr;}
+    .pain-grid{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="#top" class="brand">
+      <svg class="mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2C14 2 6 10.5 6 17.5C6 22.194 9.582 26 14 26C18.418 26 22 22.194 22 17.5C22 14.5 20 12 20 12C20 12 18.5 14 16.5 14C16.5 14 18 10 14 2Z" fill="#3CA05F"/>
+      </svg>
+      Fire Broker
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">MENU</button>
+    <nav class="links" id="navLinks">
+      <a href="#offer">What We Offer</a>
+      <a href="#sectors">Who We Serve</a>
+      <a href="#how">How It Works</a>
+      <a href="#clients">For Clients</a>
+      <a href="trade-partners.html">For Trade Partners</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="cta-btn">Book a Consultation</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker">FIRE SAFETY SERVICES INTRODUCER &amp; BROKER</div>
+        <h1>We connect fire safety needs to the right specialists.</h1>
+        <p class="hero-sub">Firebroker matches building owners and Responsible Persons with vetted, accredited fire safety professionals — saving time and money at every stage of remediation and compliance.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn-primary">Request an initial consultation</a>
+          <a href="trade-partners.html" class="btn-ghost">Trade Introducer Services</a>
+        </div>
+      </div>
+      <div class="hero-diagram">
+        <span class="tick tl"></span><span class="tick br"></span>
+        <div class="dlabel">DWG — INTRODUCER PROCESS</div>
+        <h3>From FRA report to appointed contractor</h3>
+        <div class="diagram-flow">
+          <div class="diagram-node"><span class="n">01</span> Understand your requirement</div>
+          <div class="diagram-node"><span class="n">02</span> Match to certified professionals</div>
+          <div class="diagram-node"><span class="n">03</span> Support through procurement</div>
+          <div class="diagram-node"><span class="n">04</span> Best value, secured</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE OFFER -->
+  <section id="offer">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we offer</h2>
+        <div class="desc">A fully independent broker — we introduce, we don't install.</div>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="tag">Experience</div>
+          <h3>20 years of industry experience</h3>
+          <p>Deep knowledge of fire safety products, services and the supplier landscape across the UK.</p>
+        </div>
+        <div class="pillar">
+          <div class="tag">Range</div>
+          <h3>Hundreds of certified professionals</h3>
+          <p>We work with approved installers, qualified consultants, engineers, specialist architects and project managers.</p>
+        </div>
+        <div class="pillar">
+          <div class="tag">Efficiency</div>
+          <h3>Introduction service only</h3>
+          <p>We are a fully independent broker. All works are carried out by certified professionals, not Firebroker.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="wrap stats-grid">
+      <div class="stat"><div class="num">60</div><div class="lbl">Projects tendered by clients over a one year period, registered on premium introducer outreach.</div></div>
+      <div class="stat"><div class="num">£34m</div><div class="lbl">Additional revenue generated for clients offering materials &amp; fire safe upgrades.</div></div>
+      <div class="stat"><div class="num">400</div><div class="lbl">Contacts held in our CRM for ongoing pricing and engagement.</div></div>
+      <div class="stat"><div class="num">8,600</div><div class="lbl">Organic monthly views generated by our targeted SEO strategy.</div></div>
+    </div>
+  </div>
+
+  <!-- WHO WE SERVE -->
+  <section id="sectors">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Who we serve</h2>
+        <div class="desc">From student accommodation to places of worship — every building type has its own compliance profile.</div>
+      </div>
+      <div class="sectors">
+        <div class="sector"><div class="idx">01</div><div><h4>Universities &amp; Student Housing</h4><p>Managing fire safety for campus and accommodation buildings.</p></div></div>
+        <div class="sector"><div class="idx">02</div><div><h4>Hospitals &amp; Healthcare</h4><p>Serving the UK's 1,300 healthcare buildings and their fire safety needs.</p></div></div>
+        <div class="sector"><div class="idx">03</div><div><h4>All Types of Schools</h4><p>Fire remediation services for schools and specialist education providers.</p></div></div>
+        <div class="sector"><div class="idx">04</div><div><h4>Retirement Homes</h4><p>Fire safety for retirement homes, from new-build to converted properties.</p></div></div>
+        <div class="sector"><div class="idx">05</div><div><h4>Offices</h4><p>Compliance and upgrade works around live commercial operations.</p></div></div>
+        <div class="sector"><div class="idx">06</div><div><h4>Flats &amp; HMOs</h4><p>Residential blocks and houses in multiple occupation.</p></div></div>
+        <div class="sector"><div class="idx">07</div><div><h4>Worship Places</h4><p>Sensitive, often heritage-status buildings in regular community use.</p></div></div>
+        <div class="sector"><div class="idx">08</div><div><h4>Retail</h4><p>Occupied trading environments with minimal tolerance for disruption.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How our broker services work</h2>
+        <div class="desc">Four steps, from FRA report to appointed contractor.</div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="snum">STEP 01</div>
+          <h4>Understand your needs</h4>
+          <p>We help you translate what your FRA report requires into a clear scope for the right service providers — remediation and ongoing maintenance alike.</p>
+        </div>
+        <div class="step">
+          <div class="snum">STEP 02</div>
+          <h4>Match to professionals</h4>
+          <p>We align your requirements to our network of fire consultants, engineers, designers and contractors.</p>
+        </div>
+        <div class="step">
+          <div class="snum">STEP 03</div>
+          <h4>Procurement support</h4>
+          <p>We support — and where needed, represent — you throughout the procurement process.</p>
+        </div>
+        <div class="step">
+          <div class="snum">STEP 04</div>
+          <h4>Best value, secured</h4>
+          <p>We ensure competitive pricing from the most relevant providers at each stage, helping you make the best choices.</p>
+        </div>
+      </div>
+      <div style="margin-top:40px;"><a href="#contact" class="btn-primary">Request a consultation</a></div>
+    </div>
+  </section>
+
+  <!-- INDUSTRY SECTORS -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Industry sectors serviced</h2>
+        <div class="desc">&nbsp;</div>
+      </div>
+      <div class="industry">
+        <div class="industry-card">
+          <div class="tag">COMMERCIAL</div>
+          <h3>Commercial Buildings</h3>
+          <p>We work with businesses running while doing essential upgrades — cladding remediation, fire door upgrades, lift shaft renovations and other essential works required in offices, hotels, universities and commercial buildings of every kind.</p>
+        </div>
+        <div class="industry-card">
+          <div class="tag">HERITAGE</div>
+          <h3>Listed Buildings</h3>
+          <p>A specialist service for the unique needs of heritage buildings. Listed buildings require careful planning, design work, architect involvement and specialist manufacturers and installers — we connect you with the right specialists.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS: LIFE AFTER A FIRE REPORT -->
+  <section id="clients" style="background:var(--paper-dim); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Life after a fire report</h2>
+        <div class="desc">Here to support UK businesses &amp; charities — bridging the gap between accredited professionals and the people who need them.</div>
+      </div>
+      <div class="pain-grid">
+        <div class="pain"><div class="pnum">01</div><h4>Depth of reports</h4><p>Reports are thorough. Seeing a multi-page action plan covering everything from structural upgrades to minor compliance issues can feel daunting.</p></div>
+        <div class="pain"><div class="pnum">02</div><h4>The weight of responsibility</h4><p>The Responsible Person carries a real personal and legal duty of care. A list of hazards brings that responsibility into sharp focus.</p></div>
+        <div class="pain"><div class="pnum">03</div><h4>Budgetary problems</h4><p>Budgets are already stretched. Diverting thousands of pounds to fund alarm upgrades or intumescent seals is a painful pill to swallow.</p></div>
+        <div class="pain"><div class="pnum">04</div><h4>Logistical issues</h4><p>Scheduling disruptive works — drilling, replacing doors, rewiring — around a live, bustling building is genuinely challenging.</p></div>
+        <div class="pain"><div class="pnum">05</div><h4>Starting with research</h4><p>Hundreds of providers operate across the UK, each with different capabilities, insurance levels and track records by sector.</p></div>
+        <div class="pain"><div class="pnum">06</div><h4>Over-reliance on suppliers</h4><p>Cost transparency and availability vary widely, often pushing decisions toward "who is available" under pressure.</p></div>
+      </div>
+      <div style="margin-top:40px;"><a href="#contact" class="btn-primary">Join today — no fee</a></div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Bringing public sector insight to private businesses</h2>
+        <div class="desc">Firebroker is the UK's first procurement service broker built for the private sector.</div>
+      </div>
+      <div class="framework">
+        <div class="fw-block">
+          <div class="tag">PUBLIC PROCUREMENT FRAMEWORKS</div>
+          <h3>A pre-qualification system</h3>
+          <p>A procurement framework is used by public organisations to maintain a curated list of suppliers who have been thoroughly vetted and approved for specific categories of work.</p>
+        </div>
+        <div class="fw-block dark">
+          <div class="tag">NO FRAMEWORK FOR PRIVATE SECTOR</div>
+          <h3>The gap we close</h3>
+          <p>Private businesses, commercial buildings and charities face similar legal fire safety obligations as public bodies — but have never had access to procurement systems that make compliance safe and efficient. We built the adaptive framework that fills that gap, matching thousands of approved service providers to client needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Frequently asked questions</h2>
+        <div class="desc">&nbsp;</div>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>How does the commission structure work?</summary>
+          <p>Firebroker operates on a fixed-fee membership model. We do not take any commission from your quotes or contracts, so you keep 100% of your earnings.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What accreditations are required to join?</summary>
+          <p>We only partner with professionals who hold recognised UK fire safety accreditations, such as IFE, IFSM or BAFE. All members undergo a rigorous vetting process.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What types of projects can I expect?</summary>
+          <p>Our network spans commercial, heritage and residential fire safety requirements — from universities and hospitals to schools, offices and listed buildings across the UK.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does Firebroker carry out the works itself?</summary>
+          <p>No. Firebroker is a procurement intermediary and introducer service. We are not a certified fire safety organisation and do not carry out works, provide fire risk assessments, or offer fire safety advice. Our role ends at contractor appointment.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGAL NOTE -->
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="legal-note">
+        <div class="lmark">A LEGAL NOTE</div>
+        <p>Firebroker is a procurement intermediary and introducer service. We are not a certified fire safety organisation and do not carry out works, provide fire risk assessments, or offer fire safety advice. Legal compliance responsibility remains with the building owner. Our role ends at contractor appointment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band" id="contact">
+    <div class="wrap">
+      <div>
+        <h2>Get in touch with our team</h2>
+        <div class="contact-line">Whether you're a Responsible Person looking for advice, or a fire safety professional interested in joining our network.</div>
+        <div class="contact-line"><a href="mailto:hello@firebroker.com">hello@firebroker.com</a> &nbsp;·&nbsp; 01234 567 890</div>
+      </div>
+      <a href="mailto:hello@firebroker.com" class="btn-primary">Request an initial consultation</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <svg class="mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2C14 2 6 10.5 6 17.5C6 22.194 9.582 26 14 26C18.418 26 22 22.194 22 17.5C22 14.5 20 12 20 12C20 12 18.5 14 16.5 14C16.5 14 18 10 14 2Z" fill="#3CA05F"/>
+          </svg>
+          Fire Broker
+        </a>
+        <p>Firebroker is a procurement intermediary and introducer service. We are not a certified fire safety organisation and do not carry out works, provide fire risk assessments, or offer fire safety advice. Legal compliance responsibility remains with the building owner. Our role ends at contractor appointment.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>SITE</h5>
+          <a href="#offer">What We Offer</a>
+          <a href="#sectors">Who We Serve</a>
+          <a href="#how">How It Works</a>
+          <a href="trade-partners.html">Trade Partners</a>
+        </div>
+        <div class="footer-col">
+          <h5>LEGAL</h5>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+        <div class="footer-col">
+          <h5>CONTACT</h5>
+          <a href="mailto:hello@firebroker.com">hello@firebroker.com</a>
+          <a href="tel:01234567890">01234 567 890</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Firebroker. All rights reserved.</span>
+      <span>Residential Safety Intermediary</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('nav.links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
