@@ -3,9 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trade Partner Services — Fire Broker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%230A130D%22/%3E%3Cpath%20d%3D%22M16%204C16%204%207%2013.5%207%2020.5C7%2025.194%2011.03%2029%2016%2029C20.97%2029%2025%2025.194%2025%2020.5C25%2017.5%2023%2015%2023%2015C23%2015%2021.5%2017%2019.5%2017C19.5%2017%2021%2012%2016%204Z%22%20fill%3D%22%233CA05F%22/%3E%3C/svg%3E">
+<title>Trade Partner Services | Join Our Fire Safety Specialist Network — Fire Broker</title>
+<meta name="description" content="Grow your fire safety specialist business with zero-commission client introductions from Fire Broker. Fixed-rate membership, no long-term tie-in.">
 <link rel="canonical" href="https://www.firebroker.net/trade-partners.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Join Our Fire Safety Specialist Network — Fire Broker">
+<meta property="og:description" content="Zero-commission client introductions for fire safety specialist businesses, on a fixed-rate membership with no long-term tie-in.">
 <meta property="og:url" content="https://www.firebroker.net/trade-partners.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Fire safety specialist introducer network",
+  "provider": { "@id": "https://www.firebroker.net/#organization" },
+  "areaServed": { "@type": "Country", "name": "United Kingdom" },
+  "description": "Zero-commission client introductions for fire door, EWS and cladding remediation fire safety specialists, on a fixed-rate membership.",
+  "url": "https://www.firebroker.net/trade-partners.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the commission structure work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Firebroker operates on a fixed-fee membership model. We do not take any commission from your quotes or contracts, so you keep 100% of your earnings." }
+    },
+    {
+      "@type": "Question",
+      "name": "What accreditations are required to join?",
+      "acceptedAnswer": { "@type": "Answer", "text": "We only partner with professionals who hold recognised UK fire safety accreditations, such as IFE, IFSM or BAFE. All members undergo a rigorous vetting process before joining the network." }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of projects can I expect?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Referrals span commercial, heritage and residential fire safety requirements — from universities and healthcare buildings to schools, offices, retail and listed buildings across the UK." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a minimum contract length?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Core and Essentials packages are billed monthly with no long-term tie-in. Expert packages are scoped individually." }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -75,6 +119,28 @@
     background:var(--signal); transition:right .2s ease;
   }
   nav.links a:not(.cta):hover::after{right:0;}
+  .nav-dropdown{position:relative;}
+  .dropdown-toggle{
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+    text-decoration:none; font-size:14.5px; color:var(--ink); background:none; border:none;
+    font-family:'IBM Plex Sans', sans-serif; padding:0;
+  }
+  .dropdown-toggle .caret{
+    width:6px; height:6px; border-right:1px solid currentColor; border-bottom:1px solid currentColor;
+    transform:rotate(45deg); margin-top:-2px; transition:transform .15s ease;
+  }
+  .nav-dropdown:hover .dropdown-toggle .caret, .nav-dropdown.open .dropdown-toggle .caret{
+    transform:rotate(-135deg); margin-top:2px;
+  }
+  .dropdown-menu{
+    display:none; position:absolute; top:calc(100% + 16px); left:0; min-width:210px;
+    background:var(--paper); border:1px solid var(--line); padding:6px 0; z-index:60;
+  }
+  .nav-dropdown:hover .dropdown-menu, .nav-dropdown.open .dropdown-menu{display:block;}
+  .dropdown-menu a{
+    display:block; padding:10px 18px; font-size:14px; text-decoration:none; color:var(--ink);
+  }
+  .dropdown-menu a:hover{background:var(--paper-dim);}
   .cta-btn{
     background:var(--signal); color:var(--paper) !important;
     padding:10px 18px; border-radius:2px; font-size:14px; font-weight:500;
@@ -303,11 +369,17 @@
     .legal-note{grid-template-columns:1fr;}
     .footer-grid{flex-direction:column;}
     nav.links{
-      position:fixed; inset:66px 0 0 0; background:var(--paper);
+      position:fixed; inset:66px 0 0 0; background:#000000;
       flex-direction:column; align-items:flex-start; padding:30px 28px;
       display:none; gap:22px; border-top:1px solid var(--line);
     }
     nav.links.open{display:flex;}
+    .nav-dropdown{width:100%;}
+    .dropdown-toggle{width:100%; justify-content:space-between; padding:4px 0;}
+    .dropdown-toggle .caret{transform:rotate(-135deg); margin-top:2px;}
+    .dropdown-menu{
+      position:static; display:block; border:none; background:none; padding:6px 0 2px 14px;
+    }
     .menu-toggle{display:block; background:none; border:1px solid var(--ink); padding:8px 12px; font-size:13px; cursor:pointer; font-family:'IBM Plex Mono', monospace;}
   }
   @media (max-width: 620px){
@@ -335,6 +407,13 @@
       <a href="index.html#how">How It Works</a>
       <a href="index.html#clients">For Clients</a>
       <a href="trade-partners.html">For Trade Partners</a>
+      <div class="nav-dropdown" id="fireSafetyDropdown">
+        <a href="#" class="dropdown-toggle">Fire Safety Services <span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a href="fire-door-services.html">Fire Door Services</a>
+          <a href="ews-cladding.html">EWS &amp; Cladding</a>
+        </div>
+      </div>
       <a href="#faq">FAQ</a>
       <a href="#contact" class="cta-btn">Join Firebroker</a>
     </nav>
@@ -348,7 +427,7 @@
     <div class="wrap hero-grid">
       <div>
         <div class="kicker">0% COMMISSION. PROFESSIONAL TARGETING.</div>
-        <h1>Elevate your fire safety business.</h1>
+        <h1>Elevate your fire safety specialist business.</h1>
         <p class="hero-sub">We've spent six years connecting businesses to opportunities through our introducer service — bridging the gap between clients needing compliance and the specialists who deliver it.</p>
         <div class="hero-ctas">
           <a href="#packages" class="btn-primary">Join Firebroker</a>
@@ -558,6 +637,8 @@
           <a href="index.html#sectors">Who We Serve</a>
           <a href="index.html#how">How It Works</a>
           <a href="trade-partners.html">Trade Partners</a>
+          <a href="fire-door-services.html">Fire Door Services</a>
+          <a href="ews-cladding.html">EWS &amp; Cladding</a>
         </div>
         <div class="footer-col">
           <h5>LEGAL</h5>
@@ -582,9 +663,20 @@
   document.getElementById('menuToggle').addEventListener('click', function(){
     document.getElementById('navLinks').classList.toggle('open');
   });
-  document.querySelectorAll('nav.links a').forEach(function(a){
+  document.querySelectorAll('nav.links a:not(.dropdown-toggle)').forEach(function(a){
     a.addEventListener('click', function(){
       document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+  document.querySelectorAll('.dropdown-toggle').forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      t.closest('.nav-dropdown').classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){
+      if(!d.contains(e.target)) d.classList.remove('open');
     });
   });
 </script>
