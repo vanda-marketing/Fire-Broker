@@ -3,9 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fire Door Introducer Services — Fire Broker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%230A130D%22/%3E%3Cpath%20d%3D%22M16%204C16%204%207%2013.5%207%2020.5C7%2025.194%2011.03%2029%2016%2029C20.97%2029%2025%2025.194%2025%2020.5C25%2017.5%2023%2015%2023%2015C23%2015%2021.5%2017%2019.5%2017C19.5%2017%2021%2012%2016%204Z%22%20fill%3D%22%233CA05F%22/%3E%3C/svg%3E">
+<title>Fire Door Introducer Services | Fire Safety Specialist Network — Fire Broker</title>
+<meta name="description" content="Fire Broker connects accredited fire door inspection, maintenance and supply-and-fit installation specialists with UK clients ready to act on their FRA.">
 <link rel="canonical" href="https://www.firebroker.net/fire-door-services.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fire Door Introducer Services | Fire Safety Specialist Network">
+<meta property="og:description" content="Connect with accredited fire door inspection, maintenance and installation fire safety specialists through Fire Broker.">
 <meta property="og:url" content="https://www.firebroker.net/fire-door-services.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Fire door fire safety specialist introducer service",
+  "provider": { "@id": "https://www.firebroker.net/#organization" },
+  "areaServed": { "@type": "Country", "name": "United Kingdom" },
+  "description": "Introducer service matching accredited fire door inspection, maintenance and installation fire safety specialists to UK commercial and residential clients.",
+  "url": "https://www.firebroker.net/fire-door-services.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a fire door inspection?",
+      "acceptedAnswer": { "@type": "Answer", "text": "If your building has a completed Fire Risk Assessment (FRA) that flags fire doors, or you're a Responsible Person under the Building Safety Act, a periodic inspection by an accredited inspector (DipFD, BRE or FPA) is the recommended next step." }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between inspection, maintenance and installation partners?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Inspectors assess existing doors against current standards; maintenance specialists repair or upgrade doors already in place; installers handle full supply-and-fit of new fire door sets, ideally third-party certified for legal traceability." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do your partners work on heritage or listed buildings?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — a number of our maintenance and installation partners specialise in heritage and listed building work, balancing strict aesthetic compliance with modern fire performance requirements." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Fire Broker carry out the inspection or works itself?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Fire Broker is a procurement intermediary and introducer service. We are not a certified fire safety organisation and do not carry out inspections, maintenance or installation ourselves." }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -75,6 +119,28 @@
     background:var(--signal); transition:right .2s ease;
   }
   nav.links a:not(.cta):hover::after{right:0;}
+  .nav-dropdown{position:relative;}
+  .dropdown-toggle{
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+    text-decoration:none; font-size:14.5px; color:var(--ink); background:none; border:none;
+    font-family:'IBM Plex Sans', sans-serif; padding:0;
+  }
+  .dropdown-toggle .caret{
+    width:6px; height:6px; border-right:1px solid currentColor; border-bottom:1px solid currentColor;
+    transform:rotate(45deg); margin-top:-2px; transition:transform .15s ease;
+  }
+  .nav-dropdown:hover .dropdown-toggle .caret, .nav-dropdown.open .dropdown-toggle .caret{
+    transform:rotate(-135deg); margin-top:2px;
+  }
+  .dropdown-menu{
+    display:none; position:absolute; top:calc(100% + 16px); left:0; min-width:210px;
+    background:var(--paper); border:1px solid var(--line); padding:6px 0; z-index:60;
+  }
+  .nav-dropdown:hover .dropdown-menu, .nav-dropdown.open .dropdown-menu{display:block;}
+  .dropdown-menu a{
+    display:block; padding:10px 18px; font-size:14px; text-decoration:none; color:var(--ink);
+  }
+  .dropdown-menu a:hover{background:var(--paper-dim);}
   .cta-btn{
     background:var(--signal); color:var(--paper) !important;
     padding:10px 18px; border-radius:2px; font-size:14px; font-weight:500;
@@ -303,11 +369,17 @@
     .legal-note{grid-template-columns:1fr;}
     .footer-grid{flex-direction:column;}
     nav.links{
-      position:fixed; inset:66px 0 0 0; background:var(--paper);
+      position:fixed; inset:66px 0 0 0; background:#000000;
       flex-direction:column; align-items:flex-start; padding:30px 28px;
       display:none; gap:22px; border-top:1px solid var(--line);
     }
     nav.links.open{display:flex;}
+    .nav-dropdown{width:100%;}
+    .dropdown-toggle{width:100%; justify-content:space-between; padding:4px 0;}
+    .dropdown-toggle .caret{transform:rotate(-135deg); margin-top:2px;}
+    .dropdown-menu{
+      position:static; display:block; border:none; background:none; padding:6px 0 2px 14px;
+    }
     .menu-toggle{display:block; background:none; border:1px solid var(--ink); padding:8px 12px; font-size:13px; cursor:pointer; font-family:'IBM Plex Mono', monospace;}
   }
   @media (max-width: 620px){
@@ -335,7 +407,13 @@
       <a href="index.html#how">How It Works</a>
       <a href="index.html#clients">For Clients</a>
       <a href="trade-partners.html">For Trade Partners</a>
-      <a href="fire-door-services.html">Fire Door Services</a>
+      <div class="nav-dropdown" id="fireSafetyDropdown">
+        <a href="#" class="dropdown-toggle">Fire Safety Services <span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a href="fire-door-services.html">Fire Door Services</a>
+          <a href="ews-cladding.html">EWS &amp; Cladding</a>
+        </div>
+      </div>
       <a href="#faq">FAQ</a>
       <a href="#contact" class="cta-btn">Join Firebroker</a>
     </nav>
@@ -349,7 +427,7 @@
     <div class="wrap hero-grid">
       <div>
         <div class="kicker">FIRE DOOR INTRODUCER SERVICES</div>
-        <h1>Fire door expertise, matched to the right clients.</h1>
+        <h1>Fire door expertise, matched to the right fire safety specialist.</h1>
         <p class="hero-sub">Our introducer services are structured to align your specific fire door expertise with your ideal target markets and locations — matching technical capability to the precise geographic areas and sectors you want to target, whether local, regional or national.</p>
         <div class="hero-ctas">
           <a href="#contact" class="btn-primary">Join as a fire door partner</a>
@@ -469,6 +547,34 @@
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Frequently asked questions</h2>
+        <div class="desc">&nbsp;</div>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Do I need a fire door inspection?</summary>
+          <p>If your building has a completed Fire Risk Assessment (FRA) that flags fire doors, or you're a Responsible Person under the Building Safety Act, a periodic inspection by an accredited inspector (DipFD, BRE or FPA) is the recommended next step.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What's the difference between inspection, maintenance and installation partners?</summary>
+          <p>Inspectors assess existing doors against current standards; maintenance specialists repair or upgrade doors already in place (including FD60/FD90/FD120 hardware); installers handle full supply-and-fit of new fire door sets, ideally third-party certified for legal traceability.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do your partners work on heritage or listed buildings?</summary>
+          <p>Yes — a number of our maintenance and installation partners specialise in heritage and listed building work, balancing strict aesthetic compliance with modern fire performance requirements.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does Fire Broker carry out the inspection or works itself?</summary>
+          <p>No. Fire Broker is a procurement intermediary and introducer service. We are not a certified fire safety organisation and do not carry out inspections, maintenance or installation ourselves. Our role ends at contractor appointment.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- LEGAL NOTE -->
   <section style="padding-top:0;">
     <div class="wrap">
@@ -513,6 +619,7 @@
           <a href="index.html#how">How It Works</a>
           <a href="trade-partners.html">Trade Partners</a>
           <a href="fire-door-services.html">Fire Door Services</a>
+          <a href="ews-cladding.html">EWS &amp; Cladding</a>
         </div>
         <div class="footer-col">
           <h5>LEGAL</h5>
@@ -537,9 +644,20 @@
   document.getElementById('menuToggle').addEventListener('click', function(){
     document.getElementById('navLinks').classList.toggle('open');
   });
-  document.querySelectorAll('nav.links a').forEach(function(a){
+  document.querySelectorAll('nav.links a:not(.dropdown-toggle)').forEach(function(a){
     a.addEventListener('click', function(){
       document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+  document.querySelectorAll('.dropdown-toggle').forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      t.closest('.nav-dropdown').classList.toggle('open');
+    });
+  });
+  document.addEventListener('click', function(e){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(d){
+      if(!d.contains(e.target)) d.classList.remove('open');
     });
   });
 </script>
